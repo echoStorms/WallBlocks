@@ -9,8 +9,8 @@ ysize = 1080
 
 xdiv = 8
 ydiv = 6
-nxsize = xsize/xdiv
-nysize = ysize/ydiv
+nxsize = int(xsize/xdiv)
+nysize = int(ysize/ydiv)
 screen_size = (xsize, ysize)
 
 # ImageFile.LOAD_TRUNCATED_IMAGES = True
@@ -310,9 +310,9 @@ class wp_thread (threading.Thread):
 		return self.out;
 
 
-# test_path = 'C:\Users\a0220950\Downloads\Python\Images'
-save_path = 'D:\\Clouds\\Dropbox\\Programming\\Python\\Desktop\\G\\'
-folder_path = 'D:\\Clouds\\Dropbox\\Pictures\\Phone Pictures\\Wally\\Wally G'
+# test_path = 'C:\\Users\\a0220950\Downloads\Python\Images'
+save_path = 'D:\\Pictures\\Desktop\\F\\'
+folder_path = 'D:\\Clouds\\Dropbox\\Pictures\\Phone Pictures\\Wally\\Wally F'
 # folder_path = test_path
 
 # system('feh --bg-fill /home/meiji/Clouds/Dropbox/Programming/Python/saved_image.png')
@@ -330,7 +330,7 @@ def batch(path):
 	# file_names = get_files(test_path)
 	# print(file_names)
 
-	images = get_images(folder_path, 5);
+	images = get_images(folder_path, 50);
 	lay = love();
 
 	#size_matrix = create_size_matrix(images, layout3)
@@ -386,7 +386,7 @@ def batch(path):
 
 	# system('feh --bg-fill /home/meiji/Clouds/Dropbox/Programming/Python/saved_image.png')
 print('Working...')
-for n in range(0, 500):
+for n in range(0, 50):
 	batch(save_path + str(n) + ".jpg")
 print('Done!')
 # batch(save_path)
