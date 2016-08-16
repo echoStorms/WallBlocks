@@ -5,101 +5,7 @@ from random import randint
 import random
 import time
 import threading
-
-root = tk.Tk()
-
-screen_width = root.winfo_screenwidth()
-screen_height = root.winfo_screenheight()
-
-xsize = screen_width + 10
-ysize = screen_height
-
-# xsize = 2560
-# ysize = 1080
-
-save_path = '/home/meiji/.wallpaper/'
-folder_path = '/home/meiji/Clouds/Dropbox/Pictures/Phone Pictures/Wally/Wally G/'
-file = open("/home/meiji/.wallpaper/last_images.txt", "w")
-
-
-
-xdiv = 8
-ydiv = 6
-nxsize = int(xsize/xdiv)
-nysize = int(ysize/ydiv)
-screen_size = (xsize, ysize)
-
-# ImageFile.LOAD_TRUNCATED_IMAGES = True
-
-layout0 = [[ 4, 0, 1, 1, 1, 1, 4, 0],
-		  [ 0, 0, 1, 1, 1, 1, 0, 0],
-		  [ 1, 1, 1, 1, 1, 1, 1, 1],
-		  [ 1, 1, 1, 1, 1, 1, 1, 1],
-		  [ 4, 0, 1, 1, 1, 1, 4, 0],
-		  [ 0, 0, 1, 1, 1, 1, 0, 0]] # 4 quadrants
-
-layout1 = [[ 4, 0, 4, 0, 4, 0, 4, 0],
-		  [ 0, 0, 0, 0, 0, 0, 0, 0],
-		  [ 4, 0, 4, 0, 4, 0, 4, 0],
-		  [ 0, 0, 0, 0, 0, 0, 0, 0],
-		  [ 4, 0, 4, 0, 4, 0, 4, 0],
-		  [ 0, 0, 0, 0, 0, 0, 0, 0]] # large blocks
-
-layout2 = [[ 4, 0, 1, 1, 1, 1, 4, 0],
-		  [ 0, 0, 1, 1, 1, 1, 0, 0],
-		  [ 1, 1, 4, 0, 4, 0, 1, 1],
-		  [ 1, 1, 0, 0, 0, 0, 1, 1],
-		  [ 4, 0, 1, 1, 1, 1, 4, 0],
-		  [ 0, 0, 1, 1, 1, 1, 0, 0]] # 6 blocks
-
-layout3 = [[ 1, 1, 1, 1, 1, 1, 1, 1],
-		  [ 1, 1, 1, 1, 1, 1, 1, 1],
-		  [ 1, 1, 1, 1, 1, 1, 1, 1],
-		  [ 1, 1, 1, 1, 1, 1, 1, 1],
-		  [ 1, 1, 1, 1, 1, 1, 1, 1],
-		  [ 1, 1, 1, 1, 1, 1, 1, 1]] # small
-
-layout4 = [[ 4, 0, 1, 1, 1, 1, 4, 0],
-		  [ 0, 0, 1, 1, 1, 1, 0, 0],
-		  [ 2, 0, 4, 0, 4, 0,-2,-2],
-		  [ 2, 0, 0, 0, 0, 0, 0, 0],
-		  [ 4, 0, 3, 0, 0, 1, 4, 0],
-		  [ 0, 0, 1, 3, 0, 0, 0, 0]] # 6 blocks
-
-layout5 = [[ 4, 0, 1, 1, 1, 1, 4, 0],
-		  [ 0, 0,16, 0, 0, 0, 0, 0],
-		  [ 2, 0, 0, 0, 0, 0,-2,-2],
-		  [ 2, 0, 0, 0, 0, 0, 0, 0],
-		  [ 4, 0, 0, 0, 0, 0, 4, 0],
-		  [ 0, 0, 1, 3, 0, 0, 0, 0]] # large center
-
-layout6 = [[ 2, 0, 2, 0, 2, 0, 2, 0],
-		  [ 1, 2, 0, 2, 0, 2, 0, 1],
-		  [ 2, 0, 2, 0, 2, 0, 2, 0],
-		  [ 1, 2, 0, 2, 0, 2, 0, 1],
-		  [ 2, 0, 2, 0, 2, 0, 2, 0],
-		  [ 1, 2, 0, 2, 0, 2, 0, 1]] # horizontal
-
-layout7 = [[-2, 1,-2, 1,-2, 1,-2, 1],
-		  [ 0,-2, 0,-2, 0,-2, 0,-2],
-		  [-2, 0,-2, 0,-2, 0,-2, 0],
-		  [ 0,-2, 0,-2, 0,-2, 0,-2],
-		  [-2, 0,-2, 0,-2, 0,-2, 0],
-		  [ 0, 1, 0, 1, 0, 1, 0, 1]] # large center
-
-layout8 = [[-2, 1,-2, 1,-2, 1,-2, 1],
-		  [ 0, 1, 0,-2, 0, 1, 0,-2],
-		  [-2, 4, 0, 0,-2, 4, 0, 0],
-		  [ 0, 0, 0,-2, 0, 0, 0,-2],
-		  [-2, 1,-2, 0,-2, 1,-2, 0],
-		  [ 0, 1, 0, 1, 0, 1, 0, 1]] # large center
-
-layout9 = [[ 2, 0, 1,-2, 1,-2, 1,-2],
-		  [ 9, 0, 0, 0,-2, 0,-2, 0],
-		  [ 0, 0, 0,-2, 0, 1, 0,-2],
-		  [ 0, 0, 0, 0, 9, 0, 0, 0],
-		  [ 2, 0, 1,-2, 0, 0, 0,-2],
-		  [ 1, 2, 0, 0, 0, 0, 0, 0]] # 2 large, random fill
+import sys
 
 class love:
 	def __init__(self):
@@ -405,12 +311,3 @@ def batch(path):
 	# bg.show()
 	# bg1.save(path, 'JPEG', quality=100)
 	bg1.convert('RGB').save(path, 'PNG')
-
-	# system('feh --bg-fill /home/meiji/Clouds/Dropbox/Programming/Python/saved_image.png')
-system('feh --bg-fill ' + path.expanduser(save_path+ "saved_image" + ".png"))
-print('Working...')
-for n in range(0, 1):
-	batch(path.expanduser(save_path+ "saved_image" + ".png"))
-print('Done!')
-# batch(save_path)
-
