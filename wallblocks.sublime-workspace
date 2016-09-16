@@ -40,13 +40,10 @@
 	"buffers":
 	[
 		{
-			"contents": "try:\n    # for Python2\n    from Tkinter import *   ## notice capitalized T in Tkinter\n    import tkFileDialog as filedialog\nexcept ImportError:\n    # for Python3\n    from tkinter import *   ## notice lowercase 't' in tkinter here\n    from tkinter import filedialog\nfrom PIL import ImageTk, Image, ImageOps\n#from PIL import *\n\nfrom PIL import Image, ImageOps, ImageFile, ImageChops, ImageFilter\nfrom os import listdir, path, system, urandom\nfrom random import randint\nimport random\nimport time\nimport threading\n\nroot = tk.Tk()\n\nscreen_width = root.winfo_screenwidth()\nscreen_height = root.winfo_screenheight()\n\nxsize = screen_width + 10\nysize = screen_height\n\n# xsize = 2560\n# ysize = 1080\n\nsave_path = '/home/meiji/.wallpaper/'\nfolder_path = '/home/meiji/Clouds/Dropbox/Pictures/Phone Pictures/Wally/Wally G/'\n# folder_path = \"/run/user/1000/gvfs/dav:host=localhost,port=42427,ssl=false,prefix=%2F1AHDWEI8RAzl%2Fwally/special/favorite/\"\nfile = open(\"/home/meiji/.wallpaper/last_images.txt\", \"w\")\n\n\n\nxdiv = 8\nydiv = 6\nnxsize = int(xsize/xdiv)\nnysize = int(ysize/ydiv)\nscreen_size = (xsize, ysize)\n\n# ImageFile.LOAD_TRUNCATED_IMAGES = True\n\nlayout0 = [[ 4, 0, 1, 1, 1, 1, 4, 0],\n		  [ 0, 0, 1, 1, 1, 1, 0, 0],\n		  [ 1, 1, 1, 1, 1, 1, 1, 1],\n		  [ 1, 1, 1, 1, 1, 1, 1, 1],\n		  [ 4, 0, 1, 1, 1, 1, 4, 0],\n		  [ 0, 0, 1, 1, 1, 1, 0, 0]] # 4 quadrants\n\nlayout1 = [[ 4, 0, 4, 0, 4, 0, 4, 0],\n		  [ 0, 0, 0, 0, 0, 0, 0, 0],\n		  [ 4, 0, 4, 0, 4, 0, 4, 0],\n		  [ 0, 0, 0, 0, 0, 0, 0, 0],\n		  [ 4, 0, 4, 0, 4, 0, 4, 0],\n		  [ 0, 0, 0, 0, 0, 0, 0, 0]] # large blocks\n\nlayout2 = [[ 4, 0, 1, 1, 1, 1, 4, 0],\n		  [ 0, 0, 1, 1, 1, 1, 0, 0],\n		  [ 1, 1, 4, 0, 4, 0, 1, 1],\n		  [ 1, 1, 0, 0, 0, 0, 1, 1],\n		  [ 4, 0, 1, 1, 1, 1, 4, 0],\n		  [ 0, 0, 1, 1, 1, 1, 0, 0]] # 6 blocks\n\nlayout3 = [[ 1, 1, 1, 1, 1, 1, 1, 1],\n		  [ 1, 1, 1, 1, 1, 1, 1, 1],\n		  [ 1, 1, 1, 1, 1, 1, 1, 1],\n		  [ 1, 1, 1, 1, 1, 1, 1, 1],\n		  [ 1, 1, 1, 1, 1, 1, 1, 1],\n		  [ 1, 1, 1, 1, 1, 1, 1, 1]] # small\n\nlayout4 = [[ 4, 0, 1, 1, 1, 1, 4, 0],\n		  [ 0, 0, 1, 1, 1, 1, 0, 0],\n		  [ 2, 0, 4, 0, 4, 0,-2,-2],\n		  [ 2, 0, 0, 0, 0, 0, 0, 0],\n		  [ 4, 0, 3, 0, 0, 1, 4, 0],\n		  [ 0, 0, 1, 3, 0, 0, 0, 0]] # 6 blocks\n\nlayout5 = [[ 4, 0, 1, 1, 1, 1, 4, 0],\n		  [ 0, 0,16, 0, 0, 0, 0, 0],\n		  [ 2, 0, 0, 0, 0, 0,-2,-2],\n		  [ 2, 0, 0, 0, 0, 0, 0, 0],\n		  [ 4, 0, 0, 0, 0, 0, 4, 0],\n		  [ 0, 0, 1, 3, 0, 0, 0, 0]] # large center\n\nlayout6 = [[ 2, 0, 2, 0, 2, 0, 2, 0],\n		  [ 1, 2, 0, 2, 0, 2, 0, 1],\n		  [ 2, 0, 2, 0, 2, 0, 2, 0],\n		  [ 1, 2, 0, 2, 0, 2, 0, 1],\n		  [ 2, 0, 2, 0, 2, 0, 2, 0],\n		  [ 1, 2, 0, 2, 0, 2, 0, 1]] # horizontal\n\nlayout7 = [[-2, 1,-2, 1,-2, 1,-2, 1],\n		  [ 0,-2, 0,-2, 0,-2, 0,-2],\n		  [-2, 0,-2, 0,-2, 0,-2, 0],\n		  [ 0,-2, 0,-2, 0,-2, 0,-2],\n		  [-2, 0,-2, 0,-2, 0,-2, 0],\n		  [ 0, 1, 0, 1, 0, 1, 0, 1]] # large center\n\nlayout8 = [[-2, 1,-2, 1,-2, 1,-2, 1],\n		  [ 0, 1, 0,-2, 0, 1, 0,-2],\n		  [-2, 4, 0, 0,-2, 4, 0, 0],\n		  [ 0, 0, 0,-2, 0, 0, 0,-2],\n		  [-2, 1,-2, 0,-2, 1,-2, 0],\n		  [ 0, 1, 0, 1, 0, 1, 0, 1]] # large center\n\nlayout9 = [[ 2, 0, 1,-2, 1,-2, 1,-2],\n		  [ 9, 0, 0, 0,-2, 0,-2, 0],\n		  [ 0, 0, 0,-2, 0, 1, 0,-2],\n		  [ 0, 0, 0, 0, 9, 0, 0, 0],\n		  [ 2, 0, 1,-2, 0, 0, 0,-2],\n		  [ 1, 2, 0, 0, 0, 0, 0, 0]] # 2 large, random fill\n\nclass love:\n	def __init__(self):\n		self.i = randint(0,300) % 10\n		if self.i == 0:\n			self.l = layout0\n		elif self.i == 1:\n			self.l = layout1\n		elif self.i == 2:\n			self.l = layout2\n		elif self.i == 3:\n			self.l = layout3\n		elif self.i == 4:\n			self.l = layout4\n		elif self.i == 5:\n			self.l = layout5\n		elif self.i == 6:\n			self.l = layout7\n		elif self.i == 8:\n			self.l = layout8\n		elif self.i == 9:\n			self.l = layout9\n		else:\n			self.l = layout9\n\ndef determine_size(code, nxsize, nysize):\n	size = (0, 0)\n\n	if code == 2:\n		size = (nxsize*2, nysize)\n	elif code ==  -2:\n		size = (nxsize, nysize*2)\n	elif code == 3:\n		size = (nxsize*3, nysize)\n	elif code == -3:\n		size = (nxsize, nysize*3)\n\n\n	# squares\n	elif code == 0:\n		size = (0, 0)\n	elif code == 1:\n		size = (nxsize, nysize)\n	elif code == 4:\n		size = (nxsize*2, nysize*2)\n	elif code == 9:\n		size = (nxsize*3, nysize*3)\n	elif code == 16:\n		size = (nxsize*4, nysize*4)\n	elif code == 25:\n		size = (nxsize*5, nysize*5)\n	elif code == 36:\n		size = (nxsize*6, nysize*6)\n	else:\n		size = (0, 0)\n		print('Error: Image has no size associated.')\n	return size;\n\ndef create_size_matrix(images, layout):\n	rows = len(layout)\n	cols = len(layout[0])\n	size_matrix = []\n\n	cnt = n_pictures = 0\n\n	for x in range(0, rows):\n		for y in range(0, cols):\n			size = determine_size(layout[x][y], nxsize, nysize)\n			# print(size)\n			size_matrix.append(size)\n			if size != (0, 0):\n				n_pictures = n_pictures + 1\n\n	return size_matrix;\n# deprecated\ndef load_image(img_path):\n\n	return Image.open(img_path);\n\ndef get_images(folder_path, num):\n	inc_ext = ['jpg', 'bmp', 'png', 'gif']\n	file_names = [fn for fn in listdir(folder_path) if any(fn.endswith(ext) for ext in inc_ext)]\n\n\n\n	images = []\n	if len(file_names) < num :\n		print(\"Error: Not enough images in directory. Expect duplicates.\")\n		# copy list in case we run out of images\n		fn_copy = file_names[:]\n\n	# (int.from_bytes(urandom(16), byteorder='big')%num)\n	# r = []\n\n	for i in range(0, num):\n		r = randint(0, 10000) % len(file_names)\n		# if r[i] in r:\n		# 	print(\"Found duplicate. Trying again.\")\n		# 	r[i] = int.from_bytes(urandom(16), byteorder='big') % len(file_names)\n		# img = load_image(path.join(folder_path, file_names[r]))\n		# print(img.verify())\n		# images.append(load_image(path.join(folder_path, file_names[r])))\n		images.append(Image.open(path.join(folder_path, file_names[r])))\n		file.write(file_names[r]+'\\n')\n		if len(file_names) > 1:\n			file_names.pop(r)\n		else:\n			file_names.extend(fn_copy)\n\n	return images;\n\ndef get_files(folder_path):\n	inc_ext = ['jpg', 'bmp', 'png', 'gif']\n	file_names = [fn for fn in listdir(folder_path) if any(fn.endswith(ext) for ext in inc_ext)]\n	return file_names;\n\n# deprecated\ndef paste_images(images):\n	bg = Image.new('RGBA', screen_size)\n\n	cnt = 0\n	border = 0.00\n\n	for y in range(0, nysize*ydiv, nysize):\n		for x in range(0, nxsize*xdiv, nxsize):\n			img = ImageOps.fit(images[cnt], (nxsize, nysize), Image.BICUBIC, bleed = border, centering = (0.5, 0.5))\n			bg.paste(img, (x, y))\n			# bg.paste(img, (x, y))\n			cnt = cnt + 1\n	return bg;\n\ndef threaded_images(images, size_matrix, ratio):\n	bg = Image.new('RGBA', screen_size, (255,255,255,0))\n\n	cnt = 0\n	border = 0.00\n\n	error_cnt = 0\n\n	for y in range(0, int(nysize*ydiv/ratio), nysize):\n		for x in range(0, nxsize*xdiv, nxsize):\n			if size_matrix[cnt] != (0, 0):\n				success = False\n				while not success:\n					try:\n						img = ImageOps.fit(images[cnt], size_matrix[cnt], Image.ANTIALIAS, bleed = border, centering = (0.5, 0.5))\n						#print(size_matrix[cnt])\n\n\n						# Border\n						img = ImageOps.crop(img, 5)\n						img = ImageOps.expand(img, 5, 0)\n\n						# Extra settings\n						# img = ImageOps.grayscale(img)\n						# img = ImageOps.flip(img)\n						# img = ImageOps.mirror(img)\n						# img = img.filter(ImageFilter.BLUR)\n						# img = img.filter(ImageFilter.DETAIL)\n\n						# BLUR\n						# CONTOUR\n						# DETAIL\n						# EDGE_ENHANCE\n						# EDGE_ENHANCE_MORE\n						# EMBOSS\n						# FIND_EDGES\n						# SMOOTH\n						# SMOOTH_MORE\n						# SHARPEN\n\n						#There is a problem with invert and solarize and png images :()\n						# img = ImageOps.solarize(img, threshold = 128)\n						# img = ImageOps.invert(img)\n\n\n\n						success = True\n						error_cnt = 0\n					except:\n						error_cnt = error_cnt + 1\n						print(\"Image wasn't loaded properly :(\")\n						if error_cnt < 30:\n							pass\n						else:\n							print(\"You done fucked up.\")\n							break\n				#paste to canvas\n				bg.paste(img, (x, y))\n			cnt = cnt + 1\n	return bg;\n\ndef threaded_animation(images, ratio):\n	screen_size = (2560, int(1080/ratio))\n	bg = Image.new('RGBA', screen_size)\n\n	cnt = 0\n	border = 0.00\n\n	for y in range(0, int(180*6/ratio), 180):\n		for x in range(0, 320*8, 320):\n			img = ImageOps.fit(images[cnt], (320, 180), Image.BICUBIC, bleed = border, centering = (0.5, 0.5))\n			bg.paste(img, (x, y))\n			cnt = cnt + 1\n	return bg;\n\nclass wp_thread (threading.Thread):\n	# out = Image.new('RGBA', (2560, 1080))\n	# images = []\n	# ratio = 2\n	# layout = []\n	def __init__(self, threadID, name, counter, images, layout, ratio):\n		threading.Thread.__init__(self)\n		self.threadID = threadID\n		self.name = name\n		self.counter = counter\n		self.images = images\n		self.ratio = ratio\n		self.layout = layout\n	def run(self):\n		# print('Starting ' + self.name)\n		self.out = threaded_images(self.images, self.layout, self.ratio)\n		# print('Exiting ' + self.name)\n	def join(self):\n		threading.Thread.join(self)\n		return self.out;\n\n\n# test_path = 'C:\\\\Users\\\\a0220950\\Downloads\\Python\\Images'\n\n# folder_path = test_path\n\n# system('feh --bg-fill /home/meiji/Clouds/Dropbox/Programming/Python/saved_image.png')\n\n# command = 'feh --bg-fill' + save_path\n\ndef batch(path):\n	# screen_size = (xsize, ysize)\n	bg1 = Image.new('RGBA', screen_size, (255,255,255,0))\n	bg2 = Image.new('RGBA', screen_size, (255,255,255,0))\n	bg3 = Image.new('RGBA', screen_size, (255,255,255,0))\n\n	# Get files\n\n	# file_names = get_files(test_path)\n	# print(file_names)\n\n	images = get_images(folder_path, 50);\n	lay = love();\n	# print(len(lay.l))\n\n	#size_matrix = create_size_matrix(images, layout3)\n	size_matrix = create_size_matrix(images, lay.l)\n\n	# print(len(size_matrix))\n\n	s1 = int(len(size_matrix)/3)\n	s2 = s1+1\n	s3 = s1*2\n\n	m1 = size_matrix[:s3]\n\n	m2 = size_matrix[s1:]\n	m1 = size_matrix[:s2]\n	m3 = size_matrix[s3:]\n\n	thread1 = wp_thread(1, 'Thread-1', 1, images[s1:], m1, 3)\n	thread2 = wp_thread(2, 'Thread-2', 2, images[:s2], m2, 3)\n	thread3 = wp_thread(3, 'Thread-3', 3, images[s3:], m3, 3)\n\n	file.write(str(size_matrix))\n	file.close()\n\n	# m1 = size_matrix[:32]\n\n	# m2 = size_matrix[16:]\n	# m1 = size_matrix[:17]\n	# m3 = size_matrix[32:]\n\n	# thread1 = wp_thread(1, 'Thread-1', 1, images[16:], m1, 3)\n	# thread2 = wp_thread(2, 'Thread-2', 2, images[:17], m2, 3)\n	# thread3 = wp_thread(3, 'Thread-3', 3, images[32:], m3, 3)\n\n	try:\n		thread3.start()\n		thread2.start()\n		thread1.start()\n	except:\n		print(\"My Error.\")\n\n	t3 = thread3.join()\n	t2 = thread2.join()\n	t1 = thread1.join()\n\n	bg1.paste(t1, (0,0))\n	bg2.paste(t2, (0,int(nysize*2)))\n	bg3.paste(t3, (0,int(nysize*4)))\n\n\n	bg2 = ImageChops.multiply(bg3, bg2)\n	bg1 = ImageChops.multiply(bg1, bg2)\n\n	# bg.show()\n	# bg1.save(path, 'JPEG', quality=100)\n	bg1.convert('RGB').save(path, 'PNG')\n\n	# system('feh --bg-fill /home/meiji/Clouds/Dropbox/Programming/Python/saved_image.png')\nsystem('feh --bg-fill ' + path.expanduser(save_path+ \"saved_image\" + \".png\"))\nprint('Working...')\nfor n in range(0, 1):\n	batch(path.expanduser(save_path+ \"saved_image\" + \".png\"))\nprint('Done!')\n# batch(save_path)\n",
 			"file": "wallpaper.py",
-			"file_size": 10441,
-			"file_write_time": 131166224650000000,
 			"settings":
 			{
-				"buffer_size": 10746,
+				"buffer_size": 10690,
 				"line_ending": "Unix"
 			}
 		}
@@ -121,7 +118,7 @@
 	],
 	"find":
 	{
-		"height": 24.0
+		"height": 70.0
 	},
 	"find_in_files":
 	{
@@ -135,6 +132,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"/home/meiji",
 			"button",
 			"lock",
 			"subl",
@@ -215,15 +213,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 10746,
+						"buffer_size": 10690,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								510,
-								510
+								10414,
+								10414
 							]
 						],
 						"settings":
@@ -307,7 +305,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 5363.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -375,7 +373,7 @@
 		[
 			[
 				"",
-				"~/Clouds/Dropbox/Programming/Python/PicSift/picsift.sublime-project"
+				"~/.config/config.sublime-project"
 			]
 		],
 		"width": 380.0
