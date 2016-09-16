@@ -1,12 +1,22 @@
+try:
+    # for Python2
+    from Tkinter import *   ## notice capitalized T in Tkinter
+    import tkFileDialog as filedialog
+except ImportError:
+    # for Python3
+    from tkinter import *   ## notice lowercase 't' in tkinter here
+    from tkinter import filedialog
+from PIL import ImageTk, Image, ImageOps
+#from PIL import *
+
 from PIL import Image, ImageOps, ImageFile, ImageChops, ImageFilter
-import Tkinter as tk
 from os import listdir, path, system, urandom
 from random import randint
 import random
 import time
 import threading
 
-root = tk.Tk()
+root = Tk()
 
 screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
@@ -18,7 +28,8 @@ ysize = screen_height
 # ysize = 1080
 
 save_path = '/home/meiji/.wallpaper/'
-folder_path = '/home/meiji/Clouds/Dropbox/Pictures/Phone Pictures/Wally/Wally G/'
+folder_path = '/home/meiji/Pictures/wally/general/'
+# folder_path = "/run/user/1000/gvfs/dav:host=localhost,port=42427,ssl=false,prefix=%2F1AHDWEI8RAzl%2Fwally/special/favorite/"
 file = open("/home/meiji/.wallpaper/last_images.txt", "w")
 
 
@@ -172,7 +183,7 @@ def create_size_matrix(images, layout):
 			size_matrix.append(size)
 			if size != (0, 0):
 				n_pictures = n_pictures + 1
-	
+
 	return size_matrix;
 # deprecated
 def load_image(img_path):
@@ -183,7 +194,7 @@ def get_images(folder_path, num):
 	inc_ext = ['jpg', 'bmp', 'png', 'gif']
 	file_names = [fn for fn in listdir(folder_path) if any(fn.endswith(ext) for ext in inc_ext)]
 
-	
+
 
 	images = []
 	if len(file_names) < num :
@@ -208,7 +219,7 @@ def get_images(folder_path, num):
 			file_names.pop(r)
 		else:
 			file_names.extend(fn_copy)
-	
+
 	return images;
 
 def get_files(folder_path):
@@ -248,12 +259,12 @@ def threaded_images(images, size_matrix, ratio):
 						img = ImageOps.fit(images[cnt], size_matrix[cnt], Image.ANTIALIAS, bleed = border, centering = (0.5, 0.5))
 						#print(size_matrix[cnt])
 
-						
+
 						# Border
 						img = ImageOps.crop(img, 5)
 						img = ImageOps.expand(img, 5, 0)
 
-						# Extra settings						
+						# Extra settings
 						# img = ImageOps.grayscale(img)
 						# img = ImageOps.flip(img)
 						# img = ImageOps.mirror(img)
@@ -275,7 +286,7 @@ def threaded_images(images, size_matrix, ratio):
 						# img = ImageOps.solarize(img, threshold = 128)
 						# img = ImageOps.invert(img)
 
-						
+
 
 						success = True
 						error_cnt = 0
@@ -286,7 +297,7 @@ def threaded_images(images, size_matrix, ratio):
 							pass
 						else:
 							print("You done fucked up.")
-							break	
+							break
 				#paste to canvas
 				bg.paste(img, (x, y))
 			cnt = cnt + 1
@@ -386,7 +397,7 @@ def batch(path):
 	try:
 		thread3.start()
 		thread2.start()
-		thread1.start()	
+		thread1.start()
 	except:
 		print("My Error.")
 
@@ -413,4 +424,3 @@ for n in range(0, 1):
 	batch(path.expanduser(save_path+ "saved_image" + ".png"))
 print('Done!')
 # batch(save_path)
-
