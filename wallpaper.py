@@ -10,11 +10,13 @@ from PIL import ImageTk, Image, ImageOps
 #from PIL import *
 
 from PIL import Image, ImageOps, ImageFile, ImageChops, ImageFilter
-from os import listdir, path, system, urandom
+from os import listdir, path, system, urandom, rename, unlink
 from random import randint
 import random
 import time
 import threading
+from threading import current_thread
+from shutil import copyfile
 
 root = Tk()
 
@@ -28,9 +30,11 @@ ysize = screen_height
 # ysize = 1080
 
 save_path = '/home/meiji/.wallpaper/'
+mosaic_path = '/home/meiji/.wallpaper/mosaic/'
 folder_path = '/home/meiji/Pictures/wally/general/'
 # folder_path = "/run/user/1000/gvfs/dav:host=localhost,port=42427,ssl=false,prefix=%2F1AHDWEI8RAzl%2Fwally/special/favorite/"
 file = open("/home/meiji/.wallpaper/last_images.txt", "w")
+feh_file = open("/home/meiji/.wallpaper/feh_images.txt", "w")
 
 
 
@@ -216,11 +220,12 @@ def get_images(folder_path, num):
 		images.append(Image.open(path.join(folder_path, file_names[r])))
 		file.write("<" + "{:>02}".format(str(i+1)) + "> ")
 		file.write(file_names[r]+'\n')
+		feh_file.write(path.join(folder_path, file_names[r]+'\n'))
+		copyfile(path.join(folder_path, file_names[r]), path.join(mosaic_path, "{:>02}_".format(str(i+1)) + file_names[r]))
 		if len(file_names) > 1:
 			file_names.pop(r)
 		else:
 			file_names.extend(fn_copy)
-
 	return images;
 
 def get_files(folder_path):
@@ -244,6 +249,7 @@ def paste_images(images):
 	return bg;
 
 def threaded_images(images, size_matrix, ratio):
+	print(current_thread().name)
 	bg = Image.new('RGBA', screen_size, (255,255,255,0))
 
 	cnt = 0
@@ -378,31 +384,24 @@ def batch(path):
 	nz2 = sum(1 for s in m2 if s != (0, 0))
 	nz3 = sum(1 for s in m3 if s != (0, 0))
 
-	i1 = get_images(folder_path, nz1);
-	file.write(str(m1) + '\n')
-	i2 = get_images(folder_path, nz2);
-	file.write(str(m2) + '\n')
-	i3 = get_images(folder_path, nz3);
-	file.write(str(m3) + '\n')
-
+	images = get_images(folder_path, sum(1 for s in size_matrix if s != (0, 0)));
+	
 	# Prepare threads
-	# thread1 = wp_thread(1, 'Thread-1', 1, images[:nz1], m1, 3)
-	# thread2 = wp_thread(2, 'Thread-2', 2, images[nz1:nz1+nz2], m2, 3)
-	# thread3 = wp_thread(3, 'Thread-3', 3, images[nz1+nz2:], m3, 3)
+	thread1 = wp_thread(1, 'Thread-1', 1, images[:nz1], m1, 3)
+	thread2 = wp_thread(2, 'Thread-2', 2, images[nz1:nz1+nz2], m2, 3)
+	thread3 = wp_thread(3, 'Thread-3', 3, images[nz1+nz2:], m3, 3)
 
-	thread1 = wp_thread(1, 'Thread-1', 1, i1, m1, 3)
-	thread2 = wp_thread(2, 'Thread-2', 2, i2, m2, 3)
-	thread3 = wp_thread(3, 'Thread-3', 3, i3, m3, 3)
 
 	# Append size matrix to the text file
-	# file.write(str(size_matrix))
-	# file.close()
+	file.write('\n'+str(size_matrix))
+	file.close()
+	feh_file.close()
 
 	# Start threads
 	try:
-		thread3.start()
-		thread2.start()
 		thread1.start()
+		thread2.start()
+		thread3.start()
 	except:
 		print("Error: Threads won't start.")
 
@@ -438,6 +437,17 @@ def main():
 		system('feh --bg-fill ' + path.expanduser(save_path+ "saved_image" + ".png"))
 
 	print('Working...')
+
+	folder = mosaic_path
+	for the_file in listdir(folder):
+	    file_path = path.join(folder, the_file)
+	    try:
+	        if path.isfile(file_path):
+	            unlink(file_path)
+	        #elif os.path.isdir(file_path): shutil.rmtree(file_path)
+	    except Exception as e:
+	        print(e)
+
 	for n in range(0, 1):
 		batch(path.expanduser(save_path+ "saved_image" + ".png"))
 	print('Done!')
