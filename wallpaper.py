@@ -31,10 +31,10 @@ ysize = screen_height
 
 save_path = '/home/meiji/.wallpaper/'
 mosaic_path = '/home/meiji/.wallpaper/mosaic/'
-folder_path = '/home/meiji/Pictures/wally/general/'
+folder_path = '/home/meiji/pictures/wally/general/'
 # folder_path = "/run/user/1000/gvfs/dav:host=localhost,port=42427,ssl=false,prefix=%2F1AHDWEI8RAzl%2Fwally/special/favorite/"
-file = open("/home/meiji/.wallpaper/last_images.txt", "w")
-feh_file = open("/home/meiji/.wallpaper/feh_images.txt", "w")
+file = open("/home/meiji/.wallpaper/mosaic/last_images.txt", "w")
+feh_file = open("/home/meiji/.wallpaper/mosaic/feh_images.txt", "w")
 
 
 
@@ -47,74 +47,74 @@ screen_size = (xsize, ysize)
 # ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 layout0 = [[ 4, 0, 1, 1, 1, 1, 4, 0],
-		  [ 0, 0, 1, 1, 1, 1, 0, 0],
-		  [ 1, 1, 1, 1, 1, 1, 1, 1],
-		  [ 1, 1, 1, 1, 1, 1, 1, 1],
-		  [ 4, 0, 1, 1, 1, 1, 4, 0],
-		  [ 0, 0, 1, 1, 1, 1, 0, 0]] # 4 quadrants
+		   [ 0, 0, 1, 1, 1, 1, 0, 0],
+		   [ 1, 1, 1, 1, 1, 1, 1, 1],
+		   [ 1, 1, 1, 1, 1, 1, 1, 1],
+		   [ 4, 0, 1, 1, 1, 1, 4, 0],
+		   [ 0, 0, 1, 1, 1, 1, 0, 0]] # 4 quadrants
 
 layout1 = [[ 4, 0, 4, 0, 4, 0, 4, 0],
-		  [ 0, 0, 0, 0, 0, 0, 0, 0],
-		  [ 4, 0, 4, 0, 4, 0, 4, 0],
-		  [ 0, 0, 0, 0, 0, 0, 0, 0],
-		  [ 4, 0, 4, 0, 4, 0, 4, 0],
-		  [ 0, 0, 0, 0, 0, 0, 0, 0]] # large blocks
+		   [ 0, 0, 0, 0, 0, 0, 0, 0],
+		   [ 4, 0, 4, 0, 4, 0, 4, 0],
+		   [ 0, 0, 0, 0, 0, 0, 0, 0],
+		   [ 4, 0, 4, 0, 4, 0, 4, 0],
+		   [ 0, 0, 0, 0, 0, 0, 0, 0]] # large blocks
 
 layout2 = [[ 4, 0, 1, 1, 1, 1, 4, 0],
-		  [ 0, 0, 1, 1, 1, 1, 0, 0],
-		  [ 1, 1, 4, 0, 4, 0, 1, 1],
-		  [ 1, 1, 0, 0, 0, 0, 1, 1],
-		  [ 4, 0, 1, 1, 1, 1, 4, 0],
-		  [ 0, 0, 1, 1, 1, 1, 0, 0]] # 6 blocks
+		   [ 0, 0, 1, 1, 1, 1, 0, 0],
+		   [ 1, 1, 4, 0, 4, 0, 1, 1],
+		   [ 1, 1, 0, 0, 0, 0, 1, 1],
+		   [ 4, 0, 1, 1, 1, 1, 4, 0],
+		   [ 0, 0, 1, 1, 1, 1, 0, 0]] # 6 blocks
 
 layout3 = [[ 1, 1, 1, 1, 1, 1, 1, 1],
-		  [ 1, 1, 1, 1, 1, 1, 1, 1],
-		  [ 1, 1, 1, 1, 1, 1, 1, 1],
-		  [ 1, 1, 1, 1, 1, 1, 1, 1],
-		  [ 1, 1, 1, 1, 1, 1, 1, 1],
-		  [ 1, 1, 1, 1, 1, 1, 1, 1]] # small
+		   [ 1, 1, 1, 1, 1, 1, 1, 1],
+		   [ 1, 1, 1, 1, 1, 1, 1, 1],
+		   [ 1, 1, 1, 1, 1, 1, 1, 1],
+		   [ 1, 1, 1, 1, 1, 1, 1, 1],
+		   [ 1, 1, 1, 1, 1, 1, 1, 1]] # small
 
 layout4 = [[ 4, 0, 1, 1, 1, 1, 4, 0],
-		  [ 0, 0, 1, 1, 1, 1, 0, 0],
-		  [ 2, 0, 4, 0, 4, 0,-2,-2],
-		  [ 2, 0, 0, 0, 0, 0, 0, 0],
-		  [ 4, 0, 3, 0, 0, 1, 4, 0],
-		  [ 0, 0, 1, 3, 0, 0, 0, 0]] # 6 blocks
+		   [ 0, 0, 1, 1, 1, 1, 0, 0],
+		   [ 2, 0, 4, 0, 4, 0,-2,-2],
+		   [ 2, 0, 0, 0, 0, 0, 0, 0],
+		   [ 4, 0, 3, 0, 0, 1, 4, 0],
+		   [ 0, 0, 1, 3, 0, 0, 0, 0]] # 6 blocks
 
 layout5 = [[ 4, 0, 1, 1, 1, 1, 4, 0],
-		  [ 0, 0,16, 0, 0, 0, 0, 0],
-		  [ 2, 0, 0, 0, 0, 0,-2,-2],
-		  [ 2, 0, 0, 0, 0, 0, 0, 0],
-		  [ 4, 0, 0, 0, 0, 0, 4, 0],
-		  [ 0, 0, 1, 3, 0, 0, 0, 0]] # large center
+		   [ 0, 0,16, 0, 0, 0, 0, 0],
+		   [ 2, 0, 0, 0, 0, 0,-2,-2],
+		   [ 2, 0, 0, 0, 0, 0, 0, 0],
+		   [ 4, 0, 0, 0, 0, 0, 4, 0],
+		   [ 0, 0, 1, 3, 0, 0, 0, 0]] # large center
 
 layout6 = [[ 2, 0, 2, 0, 2, 0, 2, 0],
-		  [ 1, 2, 0, 2, 0, 2, 0, 1],
-		  [ 2, 0, 2, 0, 2, 0, 2, 0],
-		  [ 1, 2, 0, 2, 0, 2, 0, 1],
-		  [ 2, 0, 2, 0, 2, 0, 2, 0],
-		  [ 1, 2, 0, 2, 0, 2, 0, 1]] # horizontal
+		   [ 1, 2, 0, 2, 0, 2, 0, 1],
+		   [ 2, 0, 2, 0, 2, 0, 2, 0],
+		   [ 1, 2, 0, 2, 0, 2, 0, 1],
+		   [ 2, 0, 2, 0, 2, 0, 2, 0],
+		   [ 1, 2, 0, 2, 0, 2, 0, 1]] # horizontal
 
 layout7 = [[-2, 1,-2, 1,-2, 1,-2, 1],
-		  [ 0,-2, 0,-2, 0,-2, 0,-2],
-		  [-2, 0,-2, 0,-2, 0,-2, 0],
-		  [ 0,-2, 0,-2, 0,-2, 0,-2],
-		  [-2, 0,-2, 0,-2, 0,-2, 0],
-		  [ 0, 1, 0, 1, 0, 1, 0, 1]] # large center
+		   [ 0,-2, 0,-2, 0,-2, 0,-2],
+		   [-2, 0,-2, 0,-2, 0,-2, 0],
+		   [ 0,-2, 0,-2, 0,-2, 0,-2],
+		   [-2, 0,-2, 0,-2, 0,-2, 0],
+		   [ 0, 1, 0, 1, 0, 1, 0, 1]] # large center
 
 layout8 = [[-2, 1,-2, 1,-2, 1,-2, 1],
-		  [ 0, 1, 0,-2, 0, 1, 0,-2],
-		  [-2, 4, 0, 0,-2, 4, 0, 0],
-		  [ 0, 0, 0,-2, 0, 0, 0,-2],
-		  [-2, 1,-2, 0,-2, 1,-2, 0],
-		  [ 0, 1, 0, 1, 0, 1, 0, 1]] # large center
+		   [ 0, 1, 0,-2, 0, 1, 0,-2],
+		   [-2, 4, 0, 0,-2, 4, 0, 0],
+		   [ 0, 0, 0,-2, 0, 0, 0,-2],
+		   [-2, 1,-2, 0,-2, 1,-2, 0],
+		   [ 0, 1, 0, 1, 0, 1, 0, 1]] # large center
 
 layout9 = [[ 2, 0, 1,-2, 1,-2, 1,-2],
-		  [ 9, 0, 0, 0,-2, 0,-2, 0],
-		  [ 0, 0, 0,-2, 0, 1, 0,-2],
-		  [ 0, 0, 0, 0, 9, 0, 0, 0],
-		  [ 2, 0, 1,-2, 0, 0, 0,-2],
-		  [ 1, 2, 0, 0, 0, 0, 0, 0]] # 2 large, random fill
+		   [ 9, 0, 0, 0,-2, 0,-2, 0],
+		   [ 0, 0, 0,-2, 0, 1, 0,-2],
+		   [ 0, 0, 0, 0, 9, 0, 0, 0],
+		   [ 2, 0, 1,-2, 0, 0, 0,-2],
+		   [ 1, 2, 0, 0, 0, 0, 0, 0]] # 2 large, random fill
 
 class love:
 	def __init__(self):
@@ -353,7 +353,7 @@ class wp_thread (threading.Thread):
 
 # folder_path = test_path
 
-# system('feh --bg-fill /home/meiji/Clouds/Dropbox/Programming/Python/saved_image.png')
+# system('feh --bg-fill /home/meiji/clouds/Dropbox/Programming/Python/saved_image.png')
 
 # command = 'feh --bg-fill' + save_path
 
@@ -421,12 +421,13 @@ def batch(path):
 	# bg.show()
 	# bg1.save(path, 'JPEG', quality=100)
 	bg1.convert('RGB').save(path, 'PNG')
+	bg1.convert('RGB').save('/home/meiji/clouds/Dropbox/pictures/mosaic.png', 'PNG')
 
 def main():
-	global folder_path
+	global folder_path, feh_file
 	wait = 1;
 	if len(sys.argv) < 2:
-		folder_path = '/home/meiji/Pictures/wally/general/'
+		folder_path = '/home/meiji/pictures/wally/general/'
 	elif len(sys.argv) < 3:
 		folder_path = sys.argv[1]
 	else:
@@ -434,7 +435,7 @@ def main():
 		wait = int(sys.argv[2])
 	
 	if not wait:
-		system('feh --bg-fill ' + path.expanduser(save_path+ "saved_image" + ".png"))
+		system('feh --bg-fill ' + path.expanduser(mosaic_path + "mosaic" + ".png"))
 
 	print('Working...')
 
@@ -447,13 +448,15 @@ def main():
 	        #elif os.path.isdir(file_path): shutil.rmtree(file_path)
 	    except Exception as e:
 	        print(e)
+	
+	feh_file = open("/home/meiji/.wallpaper/mosaic/feh_images.txt", "w")
 
 	for n in range(0, 1):
-		batch(path.expanduser(save_path+ "saved_image" + ".png"))
+		batch(path.expanduser(mosaic_path+ "mosaic" + ".png"))
 	print('Done!')
 
 	if wait:
-		system('feh --bg-fill ' + path.expanduser(save_path+ "saved_image" + ".png"))
+		system('feh --bg-fill ' + path.expanduser(mosaic_path+ "mosaic" + ".png"))
 	# batch(save_path)
 
 
