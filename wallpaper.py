@@ -271,7 +271,7 @@ def threaded_images(images, size_matrix, ratio):
 
 						# Border
 						img = ImageOps.crop(img, 5)
-						img = ImageOps.expand(img, 5, 0)
+						img = ImageOps.expand(img, 5, fill=(10,40,50))
 
 						# Extra settings
 						# img = ImageOps.grayscale(img)
