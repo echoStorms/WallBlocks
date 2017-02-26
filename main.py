@@ -118,7 +118,8 @@ def generate_wallpaper(directory):
             )
 
     for index, canvas, paint in zip((0, 1, 2), frames, painted_canvas):
-        box = (index, yspace*index)
+        box = (0, yspace*index)
+        print(box)
         canvas.paste(paint, box=box)
 
     # Paste the image contributions from each thread
