@@ -1,0 +1,134 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+Image	image_thread.py	/^from PIL import Image, ImageOps$/;"	i
+Image	main.py	/^from PIL import Image$/;"	i
+Image	wallpaper.py	/^from PIL import Image, ImageOps, ImageFile, ImageChops, ImageFilter$/;"	i
+Image	wallpaper.py	/^from PIL import ImageTk, Image, ImageOps$/;"	i
+ImageChops	wallpaper.py	/^from PIL import Image, ImageOps, ImageFile, ImageChops, ImageFilter$/;"	i
+ImageFile	wallpaper.py	/^from PIL import Image, ImageOps, ImageFile, ImageChops, ImageFilter$/;"	i
+ImageFilter	wallpaper.py	/^from PIL import Image, ImageOps, ImageFile, ImageChops, ImageFilter$/;"	i
+ImageOps	image_thread.py	/^from PIL import Image, ImageOps$/;"	i
+ImageOps	wallpaper.py	/^from PIL import Image, ImageOps, ImageFile, ImageChops, ImageFilter$/;"	i
+ImageOps	wallpaper.py	/^from PIL import ImageTk, Image, ImageOps$/;"	i
+ImageTk	wallpaper.py	/^from PIL import ImageTk, Image, ImageOps$/;"	i
+T	wallpaper.py	/^    from Tkinter import *   ## notice capitalized T in Tkinter$/;"	i
+Tkinter	wallpaper.py	/^    from Tkinter import *   ## notice capitalized T in Tkinter$/;"	i
+__init__	chunk.py	/^    def __init__(self, divisions=(8, 6)):$/;"	m	class:chunk
+__init__	image_thread.py	/^    def __init__(self, threadID, name, counter, images, size_matrix, ratio):$/;"	m	class:mosaic_thread
+__init__	layouts.py	/^    def __init__(self):$/;"	m	class:layout
+__init__	wallpaper.py	/^	def __init__(self):$/;"	m	class:love
+__init__	wallpaper.py	/^	def __init__(self, threadID, name, counter, images, layout, ratio):$/;"	m	class:wp_thread
+argparse	main.py	/^import argparse$/;"	i
+args	main.py	/^    args = parser.parse_args()$/;"	v
+base_path	main.py	/^base_path = home_path + '.wallpaper\/'$/;"	v
+batch	wallpaper.py	/^def batch(path):$/;"	f
+capitalized	wallpaper.py	/^    from Tkinter import *   ## notice capitalized T in Tkinter$/;"	i
+check_positive	main.py	/^def check_positive(value):$/;"	f
+chunk	chunk.py	/^class chunk:$/;"	c
+chunk	image_thread.py	/^from chunk import chunk$/;"	i
+chunk	layouts.py	/^from chunk import chunk$/;"	i
+chunk	main.py	/^from chunk import chunk$/;"	i
+copyfile	main.py	/^from shutil import copyfile$/;"	i
+copyfile	wallpaper.py	/^from shutil import copyfile$/;"	i
+create_size_matrix	layouts.py	/^    def create_size_matrix(self):$/;"	m	class:layout
+create_size_matrix	wallpaper.py	/^def create_size_matrix(layout):$/;"	f
+current_thread	wallpaper.py	/^from threading import current_thread$/;"	i
+determine_size	layouts.py	/^    def determine_size(self, code, pic_chunk):$/;"	m	class:layout
+determine_size	wallpaper.py	/^def determine_size(code, nxsize, nysize):$/;"	f
+dimensions	chunk.py	/^    def dimensions(self):$/;"	m	class:chunk
+feh_file	wallpaper.py	/^feh_file = open("\/home\/meiji\/.wallpaper\/mosaic\/feh_images.txt", "w")$/;"	v
+file	wallpaper.py	/^file = open("\/home\/meiji\/.wallpaper\/mosaic\/last_images.txt", "w")$/;"	v
+filedialog	wallpaper.py	/^    from tkinter import filedialog$/;"	i
+filedialog	wallpaper.py	/^    import tkFileDialog as filedialog$/;"	i
+files	main.py	/^files = {$/;"	v
+folder_path	wallpaper.py	/^folder_path = '\/home\/meiji\/pictures\/wally\/general\/'$/;"	v
+generate_wallpaper	main.py	/^def generate_wallpaper(directory):$/;"	f
+get_files	main.py	/^def get_files(directory):$/;"	f
+get_files	wallpaper.py	/^def get_files(folder_path):$/;"	f
+get_images	main.py	/^def get_images(images_folder_path, num):$/;"	f
+get_images	wallpaper.py	/^def get_images(folder_path, num):$/;"	f
+help	main.py	/^            help='directory to use images from')$/;"	v
+help	main.py	/^            help='number of images to create. default is 1')$/;"	v
+help	main.py	/^            help='set wallpaper immediately, instead of waiting for new generation')$/;"	v
+here	wallpaper.py	/^    from tkinter import *   ## notice lowercase 't' in tkinter here$/;"	i
+home_path	main.py	/^home_path = '\/home\/meiji\/'$/;"	v
+in	wallpaper.py	/^    from Tkinter import *   ## notice capitalized T in Tkinter$/;"	i
+in	wallpaper.py	/^    from tkinter import *   ## notice lowercase 't' in tkinter here$/;"	i
+is_square	layouts.py	/^def is_square(integer):$/;"	f
+join	wallpaper.py	/^	def join(self):$/;"	m	class:wp_thread
+layout	layouts.py	/^class layout:$/;"	c
+layout	main.py	/^from layouts import layout$/;"	i
+layout0	wallpaper.py	/^layout0 = [[ 4, 0, 1, 1, 1, 1, 4, 0],$/;"	v
+layout1	wallpaper.py	/^layout1 = [[ 4, 0, 4, 0, 4, 0, 4, 0],$/;"	v
+layout2	wallpaper.py	/^layout2 = [[ 4, 0, 1, 1, 1, 1, 4, 0],$/;"	v
+layout3	wallpaper.py	/^layout3 = [[ 1, 1, 1, 1, 1, 1, 1, 1],$/;"	v
+layout4	wallpaper.py	/^layout4 = [[ 4, 0, 1, 1, 1, 1, 4, 0],$/;"	v
+layout5	wallpaper.py	/^layout5 = [[ 4, 0, 1, 1, 1, 1, 4, 0],$/;"	v
+layout6	wallpaper.py	/^layout6 = [[ 2, 0, 2, 0, 2, 0, 2, 0],$/;"	v
+layout7	wallpaper.py	/^layout7 = [[-2, 1,-2, 1,-2, 1,-2, 1],$/;"	v
+layout8	wallpaper.py	/^layout8 = [[-2, 1,-2, 1,-2, 1,-2, 1],$/;"	v
+layout9	wallpaper.py	/^layout9 = [[ 2, 0, 1,-2, 1,-2, 1,-2],$/;"	v
+layouts	layouts.py	/^    layouts = {$/;"	v	class:layout
+listdir	main.py	/^from os import listdir, path$/;"	i
+listdir	wallpaper.py	/^from os import listdir, path, system, urandom, rename, unlink$/;"	i
+load_image	wallpaper.py	/^def load_image(img_path):$/;"	f
+love	wallpaper.py	/^class love:$/;"	c
+lowercase	wallpaper.py	/^    from tkinter import *   ## notice lowercase 't' in tkinter here$/;"	i
+main	main.py	/^def main(directory, num_wallpapers=1, immediate=False):$/;"	f
+main	wallpaper.py	/^def main():$/;"	f
+math	layouts.py	/^import math$/;"	i
+mod_image	image_thread.py	/^def mod_image(image, size, border=5, color_fill=(0, 0, 0), centering=(0.5, 0.5), method=Image.ANTIALIAS):$/;"	f
+mosaic_path	wallpaper.py	/^mosaic_path = '\/home\/meiji\/.wallpaper\/mosaic\/'$/;"	v
+mosaic_thread	image_thread.py	/^class mosaic_thread (thread.Thread):$/;"	c
+mosaic_thread	layouts.py	/^from image_thread import mosaic_thread$/;"	i
+notice	wallpaper.py	/^    from Tkinter import *   ## notice capitalized T in Tkinter$/;"	i
+notice	wallpaper.py	/^    from tkinter import *   ## notice lowercase 't' in tkinter here$/;"	i
+nxsize	wallpaper.py	/^nxsize = int(xsize\/xdiv)$/;"	v
+nysize	wallpaper.py	/^nysize = int(ysize\/ydiv)$/;"	v
+parser	main.py	/^    parser = argparse.ArgumentParser()$/;"	v
+paste_images	wallpaper.py	/^def paste_images(images):$/;"	f
+path	main.py	/^from os import listdir, path$/;"	i
+path	wallpaper.py	/^from os import listdir, path, system, urandom, rename, unlink$/;"	i
+paths	main.py	/^paths = {$/;"	v
+pick	layouts.py	/^    def pick(self, index=0, random=True):$/;"	m	class:layout
+profile	main.py	/^from profilehooks import profile$/;"	i
+randint	layouts.py	/^from random import randint$/;"	i
+randint	main.py	/^from random import randint$/;"	i
+randint	wallpaper.py	/^from random import randint$/;"	i
+random	wallpaper.py	/^import random$/;"	i
+rename	wallpaper.py	/^from os import listdir, path, system, urandom, rename, unlink$/;"	i
+root	wallpaper.py	/^root = Tk()$/;"	v
+run	image_thread.py	/^    def run(self):$/;"	m	class:mosaic_thread
+run	wallpaper.py	/^	def run(self):$/;"	m	class:wp_thread
+save_path	wallpaper.py	/^save_path = '\/home\/meiji\/.wallpaper\/'$/;"	v
+screen_height	wallpaper.py	/^screen_height = root.winfo_screenheight()$/;"	v
+screen_size	wallpaper.py	/^screen_size = (xsize, ysize)$/;"	v
+screen_width	wallpaper.py	/^screen_width = root.winfo_screenwidth()$/;"	v
+setWallpaper	main.py	/^def setWallpaper(file_path):$/;"	f
+set_screen_size	chunk.py	/^    def set_screen_size(self, screen_size=None):$/;"	m	class:chunk
+split	layouts.py	/^    def split(self, images, thread_count=3):$/;"	m	class:layout
+system	wallpaper.py	/^from os import listdir, path, system, urandom, rename, unlink$/;"	i
+thread	image_thread.py	/^import threading as thread$/;"	i
+thread_image_mod	image_thread.py	/^    def thread_image_mod(self):$/;"	m	class:mosaic_thread
+threaded_animation	wallpaper.py	/^def threaded_animation(images, ratio):$/;"	f
+threaded_images	wallpaper.py	/^def threaded_images(images, size_matrix, ratio):$/;"	f
+threading	wallpaper.py	/^import threading$/;"	i
+time	wallpaper.py	/^import time$/;"	i
+tkinter	chunk.py	/^import tkinter$/;"	i
+tkinter	wallpaper.py	/^    from tkinter import *   ## notice lowercase 't' in tkinter here$/;"	i
+total_divisions	chunk.py	/^    def total_divisions(self):$/;"	m	class:chunk
+unlink	wallpaper.py	/^from os import listdir, path, system, urandom, rename, unlink$/;"	i
+urandom	wallpaper.py	/^from os import listdir, path, system, urandom, rename, unlink$/;"	i
+wp_thread	wallpaper.py	/^class wp_thread (threading.Thread):$/;"	c
+xdiv	chunk.py	/^    def xdiv(self):$/;"	m	class:chunk
+xdiv	wallpaper.py	/^xdiv = 8$/;"	v
+xpx	chunk.py	/^    def xpx(self):$/;"	m	class:chunk
+xsize	wallpaper.py	/^xsize = screen_width + 10$/;"	v
+ydiv	chunk.py	/^    def ydiv(self):$/;"	m	class:chunk
+ydiv	wallpaper.py	/^ydiv = 6$/;"	v
+ypx	chunk.py	/^    def ypx(self):$/;"	m	class:chunk
+ysize	wallpaper.py	/^ysize = screen_height$/;"	v
