@@ -1,16 +1,8 @@
 #!/usr/bin/env python3
+import math
 from random import randint
 from chunk import chunk
-import math
 from image_thread import mosaic_thread
-
-def is_square(integer):
-    pos_integer = math.fabs(integer)
-    root = math.sqrt(pos_integer)
-    if int(root + 0.5) ** 2 == pos_integer: 
-        return True
-    else:
-        return False
 
 class layout:
     layouts = {
@@ -24,7 +16,7 @@ class layout:
                 [ 4, 0, 1, 1, 1, 1, 4, 0],
                 [ 0, 0, 1, 1, 1, 1, 0, 0]
             ],
-            # large blocks
+            # medium blocks
             '1':
             [
                 [ 4, 0, 4, 0, 4, 0, 4, 0],
@@ -114,6 +106,66 @@ class layout:
                 [ 2, 0, 1,-2, 0, 0, 0,-2],
                 [ 1, 2, 0, 0, 0, 0, 0, 0]
             ],
+            # 2 large random fill
+            '10':
+            [
+                [-3, 9, 0, 0, 9, 0, 0,-3],
+                [ 0, 0, 0, 0, 0, 0, 0, 0],
+                [ 0, 0, 0, 0, 0, 0, 0, 0],
+                [-3, 3, 0, 0, 2, 0, 2, 0],
+                [ 0, 9, 0, 0, 4, 0, 4, 0],
+                [ 0, 0, 0, 0, 0, 0, 0, 0]
+            ],
+            # 2 huge v1
+            '11':
+            [
+                [16, 0, 0, 0, 4, 0, 4, 0],
+                [ 0, 0, 0, 0, 0, 0, 0, 0],
+                [ 0, 0, 0, 0,16, 0, 0, 0],
+                [ 0, 0, 0, 0, 0, 0, 0, 0],
+                [ 4, 0, 4, 0, 0, 0, 0, 0],
+                [ 0, 0, 0, 0, 0, 0, 0, 0]
+            ],
+            # 2 huge v2
+            '12':
+            [
+                [ 4, 0, 4, 0,16, 0, 0, 0],
+                [ 0, 0, 0, 0, 0, 0, 0, 0],
+                [16, 0, 0, 0, 0, 0, 0, 0],
+                [ 0, 0, 0, 0, 0, 0, 0, 0],
+                [ 0, 0, 0, 0, 4, 0, 4, 0],
+                [ 0, 0, 0, 0, 0, 0, 0, 0]
+            ],
+            # 2 huge v3
+            '13':
+            [
+                [-2, 3, 0, 0,16, 0, 0, 0],
+                [ 0, 3, 0, 0, 0, 0, 0, 0],
+                [16, 0, 0, 0, 0, 0, 0, 0],
+                [ 0, 0, 0, 0, 0, 0, 0, 0],
+                [ 0, 0, 0, 0, 3, 0, 0,-2],
+                [ 0, 0, 0, 0, 3, 0, 0, 0]
+            ],
+            # 2 huge v4
+            '14':
+            [
+                [ 3, 0, 0,-2,16, 0, 0, 0],
+                [ 3, 0, 0, 0, 0, 0, 0, 0],
+                [16, 0, 0, 0, 0, 0, 0, 0],
+                [ 0, 0, 0, 0, 0, 0, 0, 0],
+                [ 0, 0, 0, 0,-2, 3, 0, 0],
+                [ 0, 0, 0, 0, 0, 3, 0, 0]
+            ],
+            # medium offsets
+            '15':
+            [
+                [ 2, 0, 4, 0, 2, 0, 4, 0],
+                [ 4, 0, 0, 0, 4, 0, 0, 0],
+                [ 0, 0, 4, 0, 0, 0, 4, 0],
+                [ 4, 0, 0, 0, 4, 0, 0, 0],
+                [ 0, 0, 4, 0, 0, 0, 4, 0],
+                [ 2, 0, 0, 0, 2, 0, 0, 0]
+            ],
         }
 
     def __init__(self):
@@ -121,18 +173,17 @@ class layout:
         self.pick()
         self.create_size_matrix()
 
-    def pick(self, index=0, random=True):
-        if random:
-            name = str(randint(0, 300) % 10)
-        else:
+    def pick(self, index=None):
+        if index:
             name = str(index)
+        else:
+            name = str(randint(0, len(self.layouts)))
 
         self.layout = self.layouts[name]
         self.length = len(self.layouts[name])
 
     # translate the human readable layout matrix into a pixel size matrix
     def create_size_matrix(self):
-
         # prep iterating values
         size_matrix = []
         pic_count = 0
@@ -173,6 +224,8 @@ class layout:
         return size
 
     def split(self, images, thread_count=3):
+        # TODO: could be done more efficiently also by integrating generate_wallpapers
+
         # find how many sizes each thread will take care of
         s = int( len(self.size_matrix)/thread_count )
 
@@ -180,15 +233,17 @@ class layout:
         sm1 = self.size_matrix[   :s  ]
         sm2 = self.size_matrix[  s:s*2]
         sm3 = self.size_matrix[s*2:   ]
+        del self.size_matrix
 
         # find the non-zero size images for each section
         nz1 = sum(1 for size in sm1 if size != (0, 0))
         nz2 = sum(1 for size in sm2 if size != (0, 0))
         nz3 = sum(1 for size in sm3 if size != (0, 0))
 
-        im1 = images[:nz1]
-        im2 = images[nz1:nz1+nz2]
-        im3 = images[nz1+nz2:]
+        im1 = images[       :nz1    ]
+        im2 = images[nz1    :nz1+nz2]
+        im3 = images[nz1+nz2:       ]
+        del images
 
         # Prepare threads
         thread1 = mosaic_thread(threadID=1, name='Thread-1', counter=1, images=im1, size_matrix=sm1, ratio=3)
@@ -210,3 +265,11 @@ class layout:
         t1 = thread1.join()
 
         return (t1, t2, t3)
+
+def is_square(integer):
+    pos_integer = math.fabs(integer)
+    root = math.sqrt(pos_integer)
+    if int(root + 0.5) ** 2 == pos_integer: 
+        return True
+    else:
+        return False
