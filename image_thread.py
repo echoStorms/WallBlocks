@@ -31,7 +31,12 @@ class mosaic_thread (thread.Thread):
         size_matrix = self.size_matrix
         ratio = self.ratio
 
-        aqua = (10, 40, 50)
+        # aqua = (10, 40, 50)
+        aqua = (0, 150, 136)
+        darkaqua = (7, 54, 66)
+        orange = (181, 137, 0)
+        lime = (102, 128, 16)
+        color_fill = darkaqua
 
         cnt = 0
         error_cnt = 0
@@ -45,7 +50,7 @@ class mosaic_thread (thread.Thread):
         for y in range(0, ystop, ypx):
             for x in range(0, xstop, xpx):
                 if size_matrix[0] != (0, 0):
-                    img = mod_image(images[0], size_matrix[0], color_fill=aqua)
+                    img = mod_image(images[0], size_matrix[0], color_fill=color_fill)
                     images.pop(0) # dequeue
                     canvas.paste(img, (x, y))
                 # finally
