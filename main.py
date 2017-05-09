@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
 
 import argparse
+import sys
+import os
+import glob
+import shutil
+import subprocess
+
+
+sys.path.insert(0, '/usr/local/lib')
+sys.path.insert(0, os.path.expanduser('~/lib'))
+
+
 from tools import setWallpaper
 from tools import check_positive
 from tools import settings
@@ -9,22 +20,35 @@ from tools import generate_wallpaper
 # TODO: debug only
 from profilehooks import profile
 
+def remove_thing(path):
+    if os.path.isdir(path):
+        shutil.rmtree(path)
+    else:
+        os.remove(path)
+
+def empty_directory(path):
+    for i in glob.glob(os.path.join(path, '*')):
+        remove_thing(i)
+
+
 @profile
 def main(directory, num_wallpapers=1, immediate=False):
     paths, files = settings()
 
     print('Working...')
 
+    empty_directory('/home/meiji/.wallpaper/mosaic/')
+
     if num_wallpapers > 1:
         batch(directory, num_wallpapers)
     else:
         if immediate:
-            setWallpaper(files['mosaic'])
+            # setWallpaper(files['mosaic'])
             # TODO: pass settings instead of directory
             generate_wallpaper(directory)
         else:
             generate_wallpaper(directory)
-            setWallpaper(files['mosaic'])
+            # setWallpaper(files['mosaic'])
 
     print('Done!')
 
