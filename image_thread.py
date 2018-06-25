@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
+
 import threading as thread
-from PIL import Image, ImageOps
-from chunk import chunk
+
+
+from PIL import Image, ImageOps, ImageFilter
+
+
+from grid import grid
 
 
 class mosaic_thread (thread.Thread):
@@ -13,8 +18,8 @@ class mosaic_thread (thread.Thread):
         self.images = images
         self.ratio = ratio
         self.size_matrix = size_matrix
-        self.chunk = chunk()
-        self.image_size = self.chunk.screen_size
+        self.grid = grid()
+        self.image_size = self.grid.size
 
     def join(self):
         thread.Thread.join(self)
@@ -24,7 +29,8 @@ class mosaic_thread (thread.Thread):
         self.out = self.thread_image_mod()
 
     def thread_image_mod(self):
-        # print(thread.current_thread().name)
+        #TODO: Add to debug
+        #print('Thread name:', thread.current_thread().name)
 
         # TODO: integrate variable names
         images = self.images
@@ -36,29 +42,36 @@ class mosaic_thread (thread.Thread):
         darkaqua = (7, 54, 66)
         orange = (181, 137, 0)
         lime = (102, 128, 16)
+        black = (0, 10, 16)
         color_fill = darkaqua
+        blur = 0
 
         cnt = 0
         error_cnt = 0
         img_cnt = 0
 
         canvas = Image.new('RGBA', self.image_size, (255, 255, 255, 0))
-        xpx, ypx = self.chunk.dimensions
-        xdiv, ydiv = self.chunk.divisions
+        xpx, ypx = self.grid.dimensions
+        xdiv, ydiv = self.grid.divisions
         xstop, ystop = (int(xpx*xdiv), int(ypx*ydiv/ratio))
 
         for y in range(0, ystop, ypx):
             for x in range(0, xstop, xpx):
                 if size_matrix[0] != (0, 0):
-                    img = mod_image(images[0], size_matrix[0], color_fill=color_fill)
+                    img = mod_image(images[0],
+                          size_matrix[0],
+                          blur=blur,
+                          color_fill=color_fill
+                          )
                     images.pop(0) # dequeue
                     canvas.paste(img, (x, y))
                 # finally
                 size_matrix.pop(0) # dequeue
 
-        return canvas;
+        return canvas
 
-def mod_image(image, size, border=5, color_fill=(0, 0, 0), centering=(0.5, 0.5), method=Image.ANTIALIAS):
+
+def mod_image(image, size, border=5, blur=0, color_fill=(0, 0, 0), centering=(0.5, 0.5), method=Image.ANTIALIAS):
     image = ImageOps.fit(image, size, method=method, bleed=border, centering=centering)
 
     # create border
@@ -71,7 +84,7 @@ def mod_image(image, size, border=5, color_fill=(0, 0, 0), centering=(0.5, 0.5),
     #               .solarize(img, threshold = 128)
     #               .invert(img)
     # there is a problem with invert and solarize and png images :()
-    # img = img.filter(ImageFilter.BLUR)
+    image = image.filter(ImageFilter.GaussianBlur(radius=blur))
     #                 (ImageFilter.DETAIL)
     # BLUR / CONTOUR / DETAIL/ EDGE_ENHANCE / EDGE_ENHANCE_MORE
     # EMBOSS/ FIND_EDGES / SMOOTH / SMOOTH_MORE / SHARPEN

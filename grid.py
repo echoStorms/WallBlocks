@@ -1,39 +1,43 @@
 #!/usr/bin/env python3
+
+
 import tkinter
 
-class chunk:
+
+class grid:
     def __init__(self, divisions=(8, 6)):
         self.divisions = divisions
-        self.set_screen_size()
+        self.screen_size = self.current_screen_size
+        self.size = self.current_screen_size
 
-    def set_screen_size(self, screen_size=None):
-        if not screen_size:
-            # initialize frame to get screeninfo
-            root = tkinter.Tk()
-            self.screen_size = (
-                                int(root.winfo_screenwidth()) + 10,
-                                int(root.winfo_screenheight())
-                               )
-            root.destroy()
-        else:
-            self.screen_size = screen_size
+    @property
+    def current_screen_size(self):
+        root = tkinter.Tk()
+        size = (
+               int(root.winfo_screenwidth()) + 10,
+               int(root.winfo_screenheight())
+               )
+        root.destroy()
+        return size
 
     @property
     def total_divisions(self):
-        # total number of chunks
+        """total number of divisions"""
         return int(self.xdiv * self.ydiv)
 
     @property
     def dimensions(self):
-        # single chunk size
+        """dimensions of a single division"""
         return (self.xpx, self.ypx)
 
     @property
     def xpx(self):
+        """x size of a division in pixels"""
         return int(self.screen_size[0] / self.xdiv)
 
     @property
     def ypx(self):
+        """y size of a division in pixels"""
         return int(self.screen_size[1] / self.ydiv)
 
     @property

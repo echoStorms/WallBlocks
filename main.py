@@ -6,19 +6,22 @@ import os
 import glob
 import shutil
 import subprocess
+from configparser import ConfigParser
 
 
 sys.path.insert(0, '/usr/local/lib')
 sys.path.insert(0, os.path.expanduser('~/lib'))
 
 
-from tools import setWallpaper
-from tools import check_positive
-from tools import settings
-from tools import generate_wallpaper
+from mosaic import setWallpaper
+from mosaic import check_positive
+from mosaic import settings
+from mosaic import generate_mosaic
+
 
 # TODO: debug only
-from profilehooks import profile
+#from profilehooks import profile
+
 
 def remove_thing(path):
     if os.path.isdir(path):
@@ -26,53 +29,56 @@ def remove_thing(path):
     else:
         os.remove(path)
 
+
 def empty_directory(path):
     for i in glob.glob(os.path.join(path, '*')):
         remove_thing(i)
 
 
-@profile
-def main(directory, num_wallpapers=1, immediate=False):
-    paths, files = settings()
+#@profile
+def main(directory, batch_size=1, immediate=False):
+    parser = ConfigParser()
+    parser.read('/home/user/.config/wallblocks/config')
+
+    style = parser.get('config','style')
+    save = parser.get('config','save')
+    mosaic = parser.get('config','mosaic')
+    wallpaper = parser.get('config','wallpaper')
+
+    if style != 'random':
+        print('WARNING', 'The style selection has not been implemented yet.')
 
     print('Working...')
+    print('Please wait...')
 
-    empty_directory('/home/meiji/.wallpaper/mosaic/')
+    empty_directory(save)
 
-    if num_wallpapers > 1:
-        batch(directory, num_wallpapers)
+    if batch_size > 1:
+        print('Generating ' + str(batch_size) + ' wallpapers.')
+        batch(directory, batch_size)
     else:
+        print('Generating wallpaper.')
         if immediate:
-            # setWallpaper(files['mosaic'])
+            print('Displaying old image first.')
+            setWallpaper(files['mosaic'])
             # TODO: pass settings instead of directory
-            generate_wallpaper(directory)
+            generate_mosaic(directory)
         else:
-            generate_wallpaper(directory)
-            # setWallpaper(files['mosaic'])
+            generate_mosaic(directory)
+            setWallpaper(wallpaper)
 
     print('Done!')
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('directory', type=str,
-            help='directory to use images from')
-    parser.add_argument('-n', '--number', type=check_positive, default=1,
+            help='directory to read images from')
+    parser.add_argument('-b', '--batch', type=check_positive, default=1,
             help='number of images to create. default is 1')
     parser.add_argument('-i', '--immediate', action='store_true', default=False,
             help='set wallpaper immediately, instead of waiting for new generation')
 
     args = parser.parse_args()
 
-    # handle immediate argument
-    if args.immediate:
-        print('Displaying old image first.')
-
-    # handle number argument
-    if args.number >= 2:
-        print('Generating ' + str(args.number) + ' wallpapers.')
-    else:
-        print('Generating wallpaper.')
-    # finally
-    print('Please wait...')
-
-    main(directory=args.directory, num_wallpapers=args.number, immediate=args.immediate)
+    main(directory=args.directory, batch_size=args.batch, immediate=args.immediate)
