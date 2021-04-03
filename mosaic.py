@@ -14,9 +14,9 @@ from grid import grid
 from image_thread import mosaic_thread
 
 
-def setWallpaper(file_path):
+def set_wallpaper(file_path):
     """Set mosaic on linux, depends on feh"""
-    system('feh --bg-fill ' + path.expanduser(file_path))
+    os.system('feh --bg-fill ' + path.expanduser(file_path))
 
 
 def check_positive(value):
@@ -53,9 +53,9 @@ def settings():
 #TODO: remove dependency on this global variable
 paths, files = settings()
 
-def select_images(image_dir, num):
+def select_images(directory, num):
     """Select image files to be used"""
-    file_names = get_files(image_dir)
+    file_names = get_files(directory)
 
     if len(file_names) < num :
         print('Warning: Not enough images in directory. Expect duplicates.')
@@ -72,14 +72,8 @@ def select_images(image_dir, num):
 
 
 def write_image():
+    #TODO: remove gloval variable settings
     files['feh_images'].write(image, dest)
-
-
-def link_image(source, dest):
-    """Create sym link from image to mosaic gallery path"""
-    symlink(
-            source,
-            paths['mosaic'] + "{:>02}_".format(str(i+1) + picture_name))
 
 
 def load_images(image_names, directory, num):
@@ -87,7 +81,7 @@ def load_images(image_names, directory, num):
     images = []
 
     for i in range(0, num):
-        images.append(Image.open(path.join(directory, image_names[i])))
+        images.append(Image.open(os.path.join(directory, image_names[i])))
 
         # drop the a file name that is already used
         if len(image_names) > 1:
@@ -100,10 +94,10 @@ def load_images(image_names, directory, num):
 
 
 def get_files(directory, inc_ext=['jpg', 'bmp', 'png', 'gif']):
-    """Gets files names of file types from a directory"""
+    """Gets file names of file types from a directory"""
     file_names = [
             filename \
-            for filename in listdir(os.path.realpath(directory)) \
+            for filename in os.listdir(os.path.realpath(directory)) \
             if any(filename.endswith(ext) for ext in inc_ext)
             ]
     return file_names
@@ -111,27 +105,26 @@ def get_files(directory, inc_ext=['jpg', 'bmp', 'png', 'gif']):
 
 def merge_layers(layers):
     """Pastes canvas layers one on top of another"""
-    #TODO: Generalize to many layers
+    #TODO: generalize to n-layers
     temp = ImageChops.multiply(layers[2], layers[1])
     final = ImageChops.multiply(layers[0], temp)
     return final
 
 
-
-
 class mosaic():
-    def __init__(self, directory, threads = 3):
+    def __init__(self, directory, threads=3):
         self.layout = layout()
         self.directory = directory
         self.image_names = select_images(directory, self.layout.block_count)
         self.thread_count = threads
 
     def populate(self):
-        self.images = load_images(self.image_names, self.directory, self.layout.block_count)
-        return self.images
+        """Load images into memory"""
+        return load_images(self.image_names, self.directory, self.layout.block_count)
 
     @property
     def image_paths(self):
+        """Construct list of full image paths"""
         return [os.path.join(self.directory, name) for name in self.image_names]
 
     def prepare_threads(self):
@@ -148,14 +141,13 @@ class mosaic():
         sl1.cut_matrix(slice(grid_slice, grid_slice*2))
         sl2.cut_matrix(slice(grid_slice*2, None))
 
-        self.populate()
+        images = self.populate()
 
-        im0 = self.images[                               :sl0.block_count]
-        im1 = self.images[sl0.block_count                :sl0.block_count+sl1.block_count]
-        im2 = self.images[sl0.block_count+sl1.block_count:       ]
-        del self.images
+        im0 = images[                               :sl0.block_count]
+        im1 = images[sl0.block_count                :sl0.block_count+sl1.block_count]
+        im2 = images[sl0.block_count+sl1.block_count:       ]
+        del images
 
-        # prepare threads
         thread0 = mosaic_thread(threadID=1, name='Thread-0', counter=1, ratio =3,
                 images=im0,
                 size_matrix=sl0.size_matrix,
@@ -175,7 +167,7 @@ class mosaic():
 
     def thread_layers(self):
         """Starts and joins the threads"""
-        #TODO: Currently hardcoded to 3 threads, it should be generalized
+        #TODO: currently hardcoded to 3 threads, it should be generalized
 
         thread0, thread1, thread2 = self.prepare_threads()
 
@@ -198,22 +190,18 @@ def generate_mosaic(directory):
     """Stitches canvases, files, images and threads"""
 
     m = mosaic(directory)
-    print(m.image_paths)
 
-    screen_size = m.layout.grid.size
-
-    #TODO: load image paths into layout
-    image_paths = select_images(m.directory, m.layout.block_count)
 
     #TODO: link images to the storage directory
     #link_image(image_paths)
-
-    # images = load_images(m.image_names, directory, m.layout.block_count)
 
     #NOTE: thread_layers() is what takes the longest to process in this program
     paints = m.thread_layers()
 
     indexes = range(0, m.thread_count)
+
+    screen_size = m.layout.grid.size
+    yscreen = screen_size[1]
 
     canvas = [
         Image.new(
@@ -224,18 +212,21 @@ def generate_mosaic(directory):
         for i in indexes
         ]
 
-    yscreen = screen_size[1]
 
     def offset_layers(paints, yoffset):
+        """Apply each paint on separate canvas, but offset vertically"""
         yoffset = int(yscreen / m.thread_count)
         for index, block, paint in zip(indexes, canvas, paints):
             box = (0, yoffset*index)
             block.paste(paint, box=box)
 
-            # TODO: Move to debug mode
+            # TODO: move to debug mode
             block.convert('RGB').save('/home/user/pictures/wallblocks/mosaic/layer' + str(index), 'PNG')
         return canvas
 
     canvas = offset_layers(paints, yoffset=int(yscreen / m.thread_count))
     masterpiece = merge_layers(canvas)
+    #TODO: remove gloval variable settings
     masterpiece.convert('RGB').save(files['mosaic'], 'PNG')
+
+    return (masterpiece, m.image_names)
