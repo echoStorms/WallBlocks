@@ -19,39 +19,10 @@ def set_wallpaper(file_path):
     os.system('feh --bg-fill ' + path.expanduser(file_path))
 
 
-def check_positive(value):
-    ivalue = int(value)
-    if ivalue <= 0:
-         raise argparse.ArgumentTypeError('{} is an invalid positive int value'.format(value))
-    return ivalue
-
-
 def make_directory(path):
     if not os.path.exists(path):
         os.makedirs(path)
 
-
-def settings():
-    home_path = '/home/user/'
-    base_path = home_path + 'pictures/wallblocks/'
-    paths = {
-           'save':     base_path + 'save/',
-           'mosaic':   base_path + 'mosaic/',
-           'general':  home_path + 'pictures/favorite/',
-           }
-
-    make_directory(paths['save'])
-    make_directory(paths['mosaic'])
-
-    files = {
-           'last_images':  open(paths['mosaic'] + 'last_images.txt', 'w'),
-           'feh_images':   open(paths['mosaic'] + 'feh_images.txt', 'w'),
-           'mosaic':paths['mosaic'] + 'mosaic.png',
-           }
-    return (paths, files)
-
-#TODO: remove dependency on this global variable
-paths, files = settings()
 
 def select_images(directory, num):
     """Select image files to be used"""
@@ -71,10 +42,6 @@ def select_images(directory, num):
     return selected
 
 
-def write_image():
-    #TODO: remove gloval variable settings
-    files['feh_images'].write(image, dest)
-
 
 def load_images(image_names, directory, num):
     """Loads images into memory"""
@@ -88,7 +55,7 @@ def load_images(image_names, directory, num):
             continue
         else:
             # if we run out of files, then repeat the last file
-            image_names.extend(fn_copy)
+            image_names.extend(image_names[-1])
 
     return images
 
@@ -191,7 +158,6 @@ def generate_mosaic(directory):
 
     m = mosaic(directory)
 
-
     #TODO: link images to the storage directory
     #link_image(image_paths)
 
@@ -212,7 +178,6 @@ def generate_mosaic(directory):
         for i in indexes
         ]
 
-
     def offset_layers(paints, yoffset):
         """Apply each paint on separate canvas, but offset vertically"""
         yoffset = int(yscreen / m.thread_count)
@@ -221,12 +186,10 @@ def generate_mosaic(directory):
             block.paste(paint, box=box)
 
             # TODO: move to debug mode
-            block.convert('RGB').save('/home/user/pictures/wallblocks/mosaic/layer' + str(index), 'PNG')
+            # block.convert('RGB').save('/home/user/pictures/wallblocks/mosaic/layer' + str(index), 'PNG')
         return canvas
 
     canvas = offset_layers(paints, yoffset=int(yscreen / m.thread_count))
     masterpiece = merge_layers(canvas)
-    #TODO: remove gloval variable settings
-    masterpiece.convert('RGB').save(files['mosaic'], 'PNG')
 
     return (masterpiece, m.image_names)
