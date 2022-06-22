@@ -1,3 +1,6 @@
 __pycache__/**
 venv/**
 ./tags
+.DS_Store
+.vscode/
+

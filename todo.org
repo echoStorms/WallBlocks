@@ -1,3 +1,0 @@
-* Change alpha from all images to color
-** URL: https://stackoverflow.com/questions/9166400/convert-rgba-png-to-rgb-with-pil
-* Format size matrices to be tuples
